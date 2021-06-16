@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +45,27 @@ namespace Ouvidoria_Projeto.Controllers
 
             return View(manifesto);
         }
+        // GET: Manifestos/Details/5
+        
+        public async Task<IActionResult> Resposta(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var manifesto = await _context.Manifesto
+                .Include(m => m.TipoManifesto)
+                .FirstOrDefaultAsync(m => m.ManifestoId == id);
+            if (manifesto == null)
+            {
+                return NotFound();
+            }
+            TempData["idManifesto"] = id;
+
+            return RedirectToAction("Create", "Respostas");
+        }
+
 
         // GET: Manifestos/Create
         public IActionResult Create()

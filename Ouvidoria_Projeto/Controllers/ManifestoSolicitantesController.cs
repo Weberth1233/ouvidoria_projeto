@@ -48,6 +48,25 @@ namespace Ouvidoria_Projeto.Controllers
 
             return View(manifestoSolicitante);
         }
+        // GET: ManifestoSolicitantes/Details/5
+        public async Task<IActionResult> Respostas(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var manifestoSolicitante = await _context.ManifestosSolicitantes
+                .Include(m => m.TipoManifesto)
+                .FirstOrDefaultAsync(m => m.ManifestoId == id);
+            if (manifestoSolicitante == null)
+            {
+                return NotFound();
+            }
+            TempData["idManifesto"] = id;
+
+            return RedirectToAction("Create", "Respostas");
+        }
 
         // GET: ManifestoSolicitantes/Create
         public IActionResult Create()

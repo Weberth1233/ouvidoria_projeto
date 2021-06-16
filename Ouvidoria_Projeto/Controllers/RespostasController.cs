@@ -10,7 +10,7 @@ using Ouvidoria_Projeto.Models;
 
 namespace Ouvidoria_Projeto.Controllers
 {
-    public class RespostasController : Controller
+    public class RespostasController : BaseController
     {
         private readonly ApplicationDbContext _context;
 
@@ -22,7 +22,11 @@ namespace Ouvidoria_Projeto.Controllers
         // GET: Respostas
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Resposta.Include(r => r.Manifesto);
+            var applicationDbContext = _context.Resposta.
+                Include(r => r.Manifesto).
+                Include(r => r.Usuario);
+               
+
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -36,6 +40,7 @@ namespace Ouvidoria_Projeto.Controllers
 
             var resposta = await _context.Resposta
                 .Include(r => r.Manifesto)
+                .Include(r => r.Usuario)
                 .FirstOrDefaultAsync(m => m.RespostaId == id);
             if (resposta == null)
             {
@@ -49,6 +54,7 @@ namespace Ouvidoria_Projeto.Controllers
         public IActionResult Create()
         {
             ViewData["ManifestoId"] = new SelectList(_context.Manifesto, "ManifestoId", "Descricao");
+            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Id");
             return View();
         }
 
@@ -59,13 +65,20 @@ namespace Ouvidoria_Projeto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RespostaId,RespostaManifesto,Data,UsuarioId,ManifestoId")] Resposta resposta)
         {
+            var user = await UsuarioLog(_context);
             if (ModelState.IsValid)
             {
+                resposta.Data = DateTime.Now;
+                var id = TempData["idManifesto"];
+                resposta.ManifestoId = (int)id;
+                resposta.UsuarioId = user.Id;
+
                 _context.Add(resposta);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ManifestoId"] = new SelectList(_context.Manifesto, "ManifestoId", "Descricao", resposta.ManifestoId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Id", resposta.UsuarioId);
             return View(resposta);
         }
 
@@ -83,6 +96,7 @@ namespace Ouvidoria_Projeto.Controllers
                 return NotFound();
             }
             ViewData["ManifestoId"] = new SelectList(_context.Manifesto, "ManifestoId", "Descricao", resposta.ManifestoId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Id", resposta.UsuarioId);
             return View(resposta);
         }
 
@@ -119,6 +133,7 @@ namespace Ouvidoria_Projeto.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ManifestoId"] = new SelectList(_context.Manifesto, "ManifestoId", "Descricao", resposta.ManifestoId);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Id", resposta.UsuarioId);
             return View(resposta);
         }
 
@@ -132,6 +147,7 @@ namespace Ouvidoria_Projeto.Controllers
 
             var resposta = await _context.Resposta
                 .Include(r => r.Manifesto)
+                .Include(r => r.Usuario)
                 .FirstOrDefaultAsync(m => m.RespostaId == id);
             if (resposta == null)
             {
