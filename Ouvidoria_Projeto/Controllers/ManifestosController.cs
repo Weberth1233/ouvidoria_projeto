@@ -64,9 +64,7 @@ namespace Ouvidoria_Projeto.Controllers
             TempData["idManifesto"] = id;
 
             return RedirectToAction("Create", "Respostas");
-        }
-
-
+        }                
         // GET: Manifestos/Create
         public IActionResult Create()
         {
