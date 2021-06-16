@@ -26,7 +26,9 @@ namespace Ouvidoria_Projeto.Controllers
         // GET: ManifestoSolicitantes
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.ManifestosSolicitantes.Include(m => m.TipoManifesto);
+            var applicationDbContext = _context.ManifestosSolicitantes.
+                Include(m => m.TipoManifesto)
+               .Include(m => m.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -49,7 +51,7 @@ namespace Ouvidoria_Projeto.Controllers
             return View(manifestoSolicitante);
         }
         // GET: ManifestoSolicitantes/Details/5
-        public async Task<IActionResult> Respostas(int? id)
+        public async Task<IActionResult> Visualizar(int? id)
         {
             if (id == null)
             {
@@ -63,9 +65,9 @@ namespace Ouvidoria_Projeto.Controllers
             {
                 return NotFound();
             }
-            TempData["idManifesto"] = id;
+            TempData["ManiId"] = id;
 
-            return RedirectToAction("Create", "Respostas");
+            return RedirectToAction("Details", "Respostas");
         }
 
         // GET: ManifestoSolicitantes/Create
