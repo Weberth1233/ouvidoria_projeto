@@ -22,8 +22,8 @@ namespace Ouvidoria_Projeto.Data
 
         public DbSet<ApplicationUser> Usuario { get; set; }
 
-        public DbSet<Ouvidoria_Projeto.Models.Resposta> Resposta { get; set; }
+        public DbSet<Resposta> Resposta { get; set; }
 
-        public DbSet<Ouvidoria_Projeto.Models.TipoManifesto> TipoManifestos { get; set; }
+        public DbSet<TipoManifesto> TipoManifestos { get; set; }
     }
 }

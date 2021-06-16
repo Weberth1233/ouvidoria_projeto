@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ouvidoria_Projeto.Data;
 
 namespace Ouvidoria_Projeto.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210615042445_tabelaResposta")]
+    partial class tabelaResposta
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -333,6 +335,7 @@ namespace Ouvidoria_Projeto.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UsuarioId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("RespostaId");
@@ -494,7 +497,9 @@ namespace Ouvidoria_Projeto.Data.Migrations
 
                     b.HasOne("Ouvidoria_Projeto.Models.ApplicationUser", "Usuario")
                         .WithMany("Respostas")
-                        .HasForeignKey("UsuarioId");
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Ouvidoria_Projeto.Models.ManifestoSolicitante", b =>
