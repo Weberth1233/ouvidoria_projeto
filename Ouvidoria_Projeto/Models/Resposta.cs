@@ -10,19 +10,17 @@ namespace Ouvidoria_Projeto.Models
     {
         [Key]
         public int RespostaId { get; set; }
-        [Required(ErrorMessage ="Campos resposta não informado !")]
+        [Required(ErrorMessage = "Campos resposta não informado !")]
         public string RespostaManifesto { get; set; }
         [Required]
         public DateTime Data { get; set; }
 
-        [Required(ErrorMessage = "O campo é requirido!")]
         [Display(Name = "Usuario")]
-        public int UsuarioId { get; set; }
+        public string UsuarioId { get; set; }
 
-        [Required(ErrorMessage = "O campo é requirido!")]
         [Display(Name = "Manifesto")]
         public int ManifestoId { get; set; }
-       
+
         public virtual Manifesto Manifesto { get; set; }
         public virtual ApplicationUser Usuario { get; set; }
     }
