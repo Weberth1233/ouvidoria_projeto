@@ -41,7 +41,17 @@
                 @Html.DisplayFor(modelItem => item.Descricao)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @{
+                    var active = item.Status;
+                    if (active == 0)
+                    {
+                        @Html.DisplayName("Aguardando")
+                    }
+                    else
+                    {
+                        @Html.DisplayName("Respondido")
+                    }
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Data)
@@ -54,6 +64,7 @@
                 <a asp-action="Details" asp-route-id="@item.ManifestoId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ManifestoId">Delete</a>
                 <a asp-action="Resposta" asp-route-id="@item.ManifestoId">Responder</a>
+                <a asp-action="Visualizar" asp-route-id="@item.ManifestoId">Visualizar</a>
             </td>
         </tr>
 }
