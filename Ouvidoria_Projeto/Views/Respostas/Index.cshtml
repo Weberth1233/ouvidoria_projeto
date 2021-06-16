@@ -20,10 +20,10 @@
                 @Html.DisplayNameFor(model => model.Data)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UsuarioId)
+                @Html.DisplayNameFor(model => model.Manifesto)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Manifesto)
+                @Html.DisplayNameFor(model => model.Usuario.UserName)
             </th>
             <th></th>
         </tr>
@@ -38,10 +38,10 @@
                 @Html.DisplayFor(modelItem => item.Data)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UsuarioId)
+                @Html.DisplayFor(modelItem => item.Manifesto.Titulo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Manifesto.Descricao)
+                @Html.DisplayFor(modelItem => item.Usuario.UserName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.RespostaId">Edit</a> |

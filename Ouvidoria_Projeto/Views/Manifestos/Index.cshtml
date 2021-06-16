@@ -26,9 +26,9 @@
                 @Html.DisplayNameFor(model => model.Data)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TipoManifesto)
+                @Html.DisplayNameFor(model => model.TipoManifesto.Descricao)
             </th>
-            <th></th>
+            <th>@Html.DisplayText("Ações")</th>
         </tr>
     </thead>
     <tbody>
@@ -47,12 +47,13 @@
                 @Html.DisplayFor(modelItem => item.Data)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TipoManifesto.TipoManifestoId)
+                @Html.DisplayFor(modelItem => item.TipoManifesto.Descricao)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ManifestoId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ManifestoId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ManifestoId">Delete</a>
+                <a asp-action="Resposta" asp-route-id="@item.ManifestoId">Responder</a>
             </td>
         </tr>
 }
