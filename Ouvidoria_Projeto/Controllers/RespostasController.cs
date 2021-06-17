@@ -42,8 +42,26 @@ namespace Ouvidoria_Projeto.Controllers
             {
                 return NotFound();
             }
-
             return View(resposta);
+        }
+        public async Task<IActionResult> AtualizarStatus(int id)
+        {
+            var manifestoSolicitante = await _context.ManifestosSolicitantes
+                .Include(m => m.TipoManifesto)
+                .FirstOrDefaultAsync(m => m.ManifestoId == id);
+            if (manifestoSolicitante == null)
+            {
+                return NotFound();
+            }
+            manifestoSolicitante.Status = 1;
+            try{
+                _context.Update(manifestoSolicitante);
+                await _context.SaveChangesAsync();
+            }catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+            return View(manifestoSolicitante);
         }
 
         // GET: Respostas/Create
@@ -62,19 +80,24 @@ namespace Ouvidoria_Projeto.Controllers
         public async Task<IActionResult> Create([Bind("RespostaId,RespostaManifesto,Data,UsuarioId,ManifestoId")] Resposta resposta)
         {
             var user = await UsuarioLog(_context);
+            var id = TempData["idManifesto"];
             if (ModelState.IsValid)
             {
                 resposta.Data = DateTime.Now;
-                var id = TempData["idManifesto"];
                 resposta.ManifestoId = (int)id;
                 resposta.UsuarioId = user.Id;
-
                 _context.Add(resposta);
                 await _context.SaveChangesAsync();
+
+                await AtualizarStatus((int)id);
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ManifestoId"] = new SelectList(_context.Manifesto, "ManifestoId", "Descricao", resposta.ManifestoId);
             ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Id", resposta.UsuarioId);
+            
+            
+
             return View(resposta);
         }
 
