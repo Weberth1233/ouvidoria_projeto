@@ -22,12 +22,12 @@ namespace Ouvidoria_Projeto.Controllers
         // GET: TipoUsuarios
         public async Task<IActionResult> Index()
         {
-            var temAcesso = await Usuario_Tem_Acesso(1, _context);
+            /*var temAcesso = await Usuario_Tem_Acesso(1, _context);
 
             if (!temAcesso)
             {
                 return RedirectToAction("Index", "Home");
-            }
+            }*/
             return View(await _context.TipoUsuario.ToListAsync());
         }
 

@@ -22,14 +22,16 @@ namespace Ouvidoria_Projeto.Controllers
         // GET: PerfilUsuarios
         public async Task<IActionResult> Index()
         {
-            var temAcesso = await Usuario_Tem_Acesso(3, _context);
+            /*var temAcesso = await Usuario_Tem_Acesso(3, _context);
 
             if (!temAcesso)
             {
                 return RedirectToAction("Index", "Home");
-            }
+            }*/
 
-            var applicationDbContext = _context.PerfilUsuario.Include(p => p.IdentityUser).Include(p => p.TipoUsuario);
+            var applicationDbContext = _context.PerfilUsuario
+                .Include(p => p.IdentityUser)
+                .Include(p => p.TipoUsuario);
             return View(await applicationDbContext.ToListAsync());
         }
 
