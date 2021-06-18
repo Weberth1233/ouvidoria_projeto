@@ -26,9 +26,11 @@ namespace Ouvidoria_Projeto.Controllers
         // GET: ManifestoSolicitantes
         public async Task<IActionResult> Index()
         {
+            var user = await UsuarioLog(_context);
             var applicationDbContext = _context.ManifestosSolicitantes.
                 Include(m => m.TipoManifesto)
-               .Include(m => m.IdentityUser);
+               .Include(m => m.IdentityUser)
+               .Where(m => m.UserId == user.Id);
             return View(await applicationDbContext.ToListAsync());
         }
 
