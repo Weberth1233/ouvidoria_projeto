@@ -44,5 +44,22 @@ namespace Ouvidoria_Projeto.Controllers
             return userId;
 
         }
+       
+
+        public String Perfil(ApplicationDbContext _context, String email)
+        {
+            String resultado = "";
+            var queryUser = from PE in _context.PerfilUsuario
+                                       join US in _context.Usuario on PE.UserId equals US.Id 
+                                       where US.Email == email
+                                       select new { IdTipo = PE.IdTipoUsuario};
+
+            foreach (var item in queryUser)
+            {
+                Console.WriteLine($"{item.IdTipo}");
+                resultado = item.IdTipo.ToString();
+            }
+            return resultado;
+        }
     }
 }

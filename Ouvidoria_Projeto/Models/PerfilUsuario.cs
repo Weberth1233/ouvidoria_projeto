@@ -18,8 +18,7 @@ namespace Ouvidoria_Projeto.Models
         [ForeignKey("TipoUsuario")]
         [Column(Order = 1)]
         public int IdTipoUsuario { get; set; }
-        public virtual TipoUsuario TipoUsuario { get; set; }
-
+        public virtual TipoUsuario TipoUsuario { get; set; }  
         [Display(Name = "Usuário")]
         [ForeignKey("ApplicationUser")]
         [Column(Order = 1)]
