@@ -17,9 +17,9 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Oouvidoria Palmas</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Ouvidoria Palmas</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -30,45 +30,59 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            <li>
-                               @if(GestaoAcesso.AcessoPerfil(User.Identity.Name).Equals("3")){
-                                   <p>Olá Ouvidor</p>
-                               }
-                               else if(GestaoAcesso.AcessoPerfil(User.Identity.Name).Equals("1"))
-                               {
-                                   <p>Olá Solicitante</p>
-                               }
-                               else
-                               {
-                                   <p>Olá Administrador</p>
-                               }
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
+                            @if (GestaoAcesso.AcessoPerfil(User.Identity.Name).Equals("1"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="ManifestoSolicitantes" asp-action="Create">Criar Manifesto</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="ManifestoSolicitantes" asp-action="Index">Listagem Manifesto</a>
+                                </li>
+                                <li class="nav-item">
+                                    <p>Olá Solicitante</p>
+                                </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="PerfilUsuarios" asp-action="Index">Perfis</a>
-                            </li>
+                            }
+                            else if (GestaoAcesso.AcessoPerfil(User.Identity.Name).Equals("2"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Manifestos" asp-action="Index">Listagem Manifesto Ouvidor</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Respostas" asp-action="Index">Respostas</a>
+                                </li>
+                                <li class="nav-item">
+                                    <p>Olá Ouvidor</p>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="PerfilUsuarios" asp-action="Index">Perfis</a>
+                                </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="TipoUsuarios" asp-action="Index">TipoUsuarios</a>
-                            </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="TipoUsuarios" asp-action="Index">TipoUsuarios</a>
+                                </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="AcessoTipoUsuarios" asp-action="Index">AcessoTipoUsuarios</a>
-                            </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="AcessoTipoUsuarios" asp-action="Index">AcessoTipoUsuarios</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="TipoManifestoes" asp-action="Index">Tipo Manifestos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <p>Olá Administrador</p>
+                                </li>
+                            }
+
                         }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="ManifestoAnominoes" asp-action="Index">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
                     </ul>
                 </div>
             </div>
