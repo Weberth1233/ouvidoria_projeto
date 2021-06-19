@@ -25,5 +25,7 @@ namespace Ouvidoria_Projeto.Data
         public DbSet<Resposta> Resposta { get; set; }
 
         public DbSet<TipoManifesto> TipoManifestos { get; set; }
+
+        public DbSet<Solicitante> Solicitantes { get; set; }
     }
 }
