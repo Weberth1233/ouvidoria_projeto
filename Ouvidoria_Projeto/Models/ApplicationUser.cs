@@ -21,6 +21,7 @@ namespace Ouvidoria_Projeto.Models
         [Display(Name ="Telefone")]
         [Phone]
         public string Numero { get; set; }
+        public int ESolicitante { get; set; }
 
         public virtual ICollection<ManifestoSolicitante> ManifestosSolicitantes { get; set; }
 
