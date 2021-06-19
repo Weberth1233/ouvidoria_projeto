@@ -61,5 +61,26 @@ namespace Ouvidoria_Projeto.Controllers
             }
             return resultado;
         }
+        public async Task<Boolean> AtualizarStatus(int id, ApplicationDbContext _context, int novoStatus)
+        {
+            var manifestoSolicitante = await _context.ManifestosSolicitantes
+                .Include(m => m.TipoManifesto)
+                .FirstOrDefaultAsync(m => m.ManifestoId == id);
+            if (manifestoSolicitante == null)
+            {
+                return false;
+            }
+            manifestoSolicitante.Status = novoStatus;
+            try
+            {
+                _context.Update(manifestoSolicitante);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+            return true;
+        }
     }
 }

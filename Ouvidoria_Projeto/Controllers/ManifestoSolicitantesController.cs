@@ -90,7 +90,7 @@ namespace Ouvidoria_Projeto.Controllers
             
             if (ModelState.IsValid)
             {
-                manifestoSolicitante.Data = DateTime.Today;
+                manifestoSolicitante.Data = DateTime.Now;
                 manifestoSolicitante.Status = 0;
                 manifestoSolicitante.UserId = user.Id;
                 _context.Add(manifestoSolicitante);
@@ -178,10 +178,12 @@ namespace Ouvidoria_Projeto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var manifestoSolicitante = await _context.ManifestosSolicitantes.FindAsync(id);
-            _context.ManifestosSolicitantes.Remove(manifestoSolicitante);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var verificacao = AtualizarStatus(id, _context, 2);
+            if (await verificacao)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return NotFound();
         }
 
         private bool ManifestoSolicitanteExists(int id)

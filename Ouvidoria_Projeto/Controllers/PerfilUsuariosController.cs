@@ -32,6 +32,7 @@ namespace Ouvidoria_Projeto.Controllers
             var applicationDbContext = _context.PerfilUsuario
                 .Include(p => p.IdentityUser)
                 .Include(p => p.TipoUsuario);
+
             return View(await applicationDbContext.ToListAsync());
         }
 
