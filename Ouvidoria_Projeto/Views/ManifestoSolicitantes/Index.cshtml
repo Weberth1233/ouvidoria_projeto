@@ -10,11 +10,11 @@
 <p>
     <a asp-action="Create">Novo Manifesto</a>
 </p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserId)
+                @Html.DisplayNameFor(model => model.IdentityUser.UserName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Titulo)
@@ -31,7 +31,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.TipoManifesto)
             </th>
-            <th></th>
+            <th>Ações</th>
         </tr>
     </thead>
 
@@ -40,7 +40,7 @@
 {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IdentityUser.UserName)
+                @Html.DisplayFor(modelItem => User.Identity.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Titulo)
@@ -55,9 +55,13 @@
                     {
                         @Html.DisplayName("Aguardando")
                     }
-                    else
+                    else if (active == 1)
                     {
                         @Html.DisplayName("Respondido")
+                    }
+                    else
+                    {
+                        @Html.DisplayName("Desativado")
                     }
                 }
             </td>
@@ -68,16 +72,19 @@
                 @Html.DisplayFor(modelItem => item.TipoManifesto.Descricao)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ManifestoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ManifestoId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ManifestoId">Delete</a> |
                 @{
-                    if (active != 0)
-                    { 
-                       <a asp-action="Visualizar" asp-route-id="@item.ManifestoId">Visualizar Resposta</a>
+                    if (active != 2)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.ManifestoId">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@item.ManifestoId">Deletar</a>
+                        <a asp-action="Details" asp-route-id="@item.ManifestoId">Detalhes</a> 
+                        if (active != 0)
+                        {
+                            <a asp-action="Visualizar" asp-route-id="@item.ManifestoId">Visualizar Resposta</a>
+                        }
                     }
-                  }
-             </td>
+                }
+            </td>
         </tr>
 }
     </tbody>

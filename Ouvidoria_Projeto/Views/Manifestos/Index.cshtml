@@ -5,12 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Manifestos</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <button asp-controller="Manifesto" asp-action="Create" type="button" class="btn btn-primary">Novo Manifesto</button>
+    <!-- <a asp-action="Create">Criar</a> -->
 </p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -64,7 +65,12 @@
                 <a asp-action="Details" asp-route-id="@item.ManifestoId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ManifestoId">Delete</a>
                 <a asp-action="Resposta" asp-route-id="@item.ManifestoId">Responder</a>
-                <a asp-action="Visualizar" asp-route-id="@item.ManifestoId">Visualizar</a>
+                @{
+                    if (active != 0)
+                    {
+                        <a asp-action="Visualizar" asp-route-id="@item.ManifestoId">Visualizar Resposta</a>
+                    }
+                }
             </td>
         </tr>
 }
