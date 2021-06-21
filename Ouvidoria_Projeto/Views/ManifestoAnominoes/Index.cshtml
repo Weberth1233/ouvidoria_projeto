@@ -51,9 +51,13 @@
                     {
                         @Html.DisplayName("Aguardando")
                     }
-                    else
+                    else if (active == 1)
                     {
                         @Html.DisplayName("Respondido")
+                    }
+                    else
+                    {
+                        @Html.DisplayName("Desativado")
                     }
                 }
             </td>
@@ -64,9 +68,16 @@
                 @Html.DisplayFor(modelItem => item.TipoManifesto.Descricao)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ManifestoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ManifestoId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ManifestoId">Delete</a>
+                @{
+                    if (active != 2)
+                    {
+                        <a asp-action="Details" asp-route-id="@item.ManifestoId">Detalhes</a>
+                        if (active != 0)
+                        {
+                            <a asp-action="Visualizar" asp-route-id="@item.ManifestoId">Visualizar Resposta</a>
+                        }
+                    }
+                }
             </td>
         </tr>
 }

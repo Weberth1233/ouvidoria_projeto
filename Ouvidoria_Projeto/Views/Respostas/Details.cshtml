@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>Detalhes da Resposta</h1>
 
 <div>
     <h4>Resposta</h4>
@@ -38,6 +38,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.RespostaId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.RespostaId">Editar</a> |
+    <a class="nav-link text-light" asp-area="" asp-controller="ManifestoSolicitantes" asp-action="Index">Voltar</a>
 </div>

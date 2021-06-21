@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Index</h1>
@@ -26,7 +25,7 @@
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sexo)
+                @Html.DisplayNameFor(model => model.Telefone)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Usuario)
@@ -47,13 +46,23 @@
                 @Html.DisplayFor(modelItem => item.Senha)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @{
+                    var active = item.Status;
+                    if (active == 1)
+                    {
+                        @Html.DisplayName("Ativo")
+                    }
+                    else
+                    {
+                        @Html.DisplayName("Desativado")
+                    }
+                }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sexo)
+                @Html.DisplayFor(modelItem => item.Telefone)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Usuario.Id)
+                @Html.DisplayFor(modelItem => item.Usuario.ESolicitante)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.SolicitanteId">Edit</a> |
