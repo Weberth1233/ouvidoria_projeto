@@ -22,11 +22,11 @@ namespace Ouvidoria_Projeto.Controllers
         // GET: Respostas
         public async Task<IActionResult> Index()
         {
+            var user = await UsuarioLog(_context);
             var applicationDbContext = _context.Resposta.
                 Include(r => r.Manifesto).
-                Include(r => r.Usuario);
-               
-
+                Include(r => r.Usuario)
+               .Where(r => r.UsuarioId == user.Id);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -44,6 +44,26 @@ namespace Ouvidoria_Projeto.Controllers
             }
             return View(resposta);
         }
+
+        public async Task<IActionResult> DetailsResposta(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var resposta = await _context.Resposta
+                .Include(r => r.Manifesto).
+                 Include(r => r.Usuario)
+                .FirstOrDefaultAsync(m => m.RespostaId == id);
+            if (resposta == null)
+            {
+                return NotFound();
+            }
+
+            return View(resposta);
+        }
+
+
         public async Task<IActionResult> AtualizarStatus(int id)
         {
             var manifestoSolicitante = await _context.ManifestosSolicitantes

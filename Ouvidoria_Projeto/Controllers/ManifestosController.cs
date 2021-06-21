@@ -11,7 +11,7 @@ using Ouvidoria_Projeto.Models;
 
 namespace Ouvidoria_Projeto.Controllers
 {
-    public class ManifestosController : Controller
+    public class ManifestosController : BaseController
     {
         private readonly ApplicationDbContext _context;
 
@@ -23,7 +23,9 @@ namespace Ouvidoria_Projeto.Controllers
         // GET: Manifestos
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Manifesto.Include(m => m.TipoManifesto);
+            var applicationDbContext = _context.Manifesto.
+                Include(m => m.TipoManifesto).
+                Where(m => m.Status == 0);
             return View(await applicationDbContext.ToListAsync());
         }
 

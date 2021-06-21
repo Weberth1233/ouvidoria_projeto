@@ -10,7 +10,7 @@ using Ouvidoria_Projeto.Models;
 
 namespace Ouvidoria_Projeto.Controllers
 {
-    public class PerfilUsuariosController : BaseController
+    public class PerfilUsuariosController : Controller
     {
         private readonly ApplicationDbContext _context;
 
@@ -22,17 +22,9 @@ namespace Ouvidoria_Projeto.Controllers
         // GET: PerfilUsuarios
         public async Task<IActionResult> Index()
         {
-            /*var temAcesso = await Usuario_Tem_Acesso(3, _context);
-
-            if (!temAcesso)
-            {
-                return RedirectToAction("Index", "Home");
-            }*/
-
             var applicationDbContext = _context.PerfilUsuario
-                .Include(p => p.IdentityUser)
-                .Include(p => p.TipoUsuario);
-
+                .Include(p => p.TipoUsuario)
+                .Include(p => p.Usuario);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -45,8 +37,8 @@ namespace Ouvidoria_Projeto.Controllers
             }
 
             var perfilUsuario = await _context.PerfilUsuario
-                .Include(p => p.IdentityUser)
                 .Include(p => p.TipoUsuario)
+                .Include(p => p.Usuario)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (perfilUsuario == null)
             {
@@ -59,8 +51,8 @@ namespace Ouvidoria_Projeto.Controllers
         // GET: PerfilUsuarios/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email");
             ViewData["IdTipoUsuario"] = new SelectList(_context.TipoUsuario, "Id", "NomeTipoUsuario");
+            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Email");
             return View();
         }
 
@@ -69,7 +61,7 @@ namespace Ouvidoria_Projeto.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdTipoUsuario,UserId")] PerfilUsuario perfilUsuario)
+        public async Task<IActionResult> Create([Bind("Id,IdTipoUsuario,UsuarioId")] PerfilUsuario perfilUsuario)
         {
             if (ModelState.IsValid)
             {
@@ -77,8 +69,8 @@ namespace Ouvidoria_Projeto.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", perfilUsuario.UserId);
             ViewData["IdTipoUsuario"] = new SelectList(_context.TipoUsuario, "Id", "NomeTipoUsuario", perfilUsuario.IdTipoUsuario);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Email", perfilUsuario.UsuarioId);
             return View(perfilUsuario);
         }
 
@@ -95,8 +87,8 @@ namespace Ouvidoria_Projeto.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", perfilUsuario.UserId);
             ViewData["IdTipoUsuario"] = new SelectList(_context.TipoUsuario, "Id", "NomeTipoUsuario", perfilUsuario.IdTipoUsuario);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Email", perfilUsuario.UsuarioId);
             return View(perfilUsuario);
         }
 
@@ -105,7 +97,7 @@ namespace Ouvidoria_Projeto.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IdTipoUsuario,UserId")] PerfilUsuario perfilUsuario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,IdTipoUsuario,UsuarioId")] PerfilUsuario perfilUsuario)
         {
             if (id != perfilUsuario.Id)
             {
@@ -132,8 +124,8 @@ namespace Ouvidoria_Projeto.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", perfilUsuario.UserId);
             ViewData["IdTipoUsuario"] = new SelectList(_context.TipoUsuario, "Id", "NomeTipoUsuario", perfilUsuario.IdTipoUsuario);
+            ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Email", perfilUsuario.UsuarioId);
             return View(perfilUsuario);
         }
 
@@ -146,8 +138,8 @@ namespace Ouvidoria_Projeto.Controllers
             }
 
             var perfilUsuario = await _context.PerfilUsuario
-                .Include(p => p.IdentityUser)
                 .Include(p => p.TipoUsuario)
+                .Include(p => p.Usuario)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (perfilUsuario == null)
             {

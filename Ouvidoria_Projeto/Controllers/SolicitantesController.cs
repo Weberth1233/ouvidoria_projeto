@@ -54,23 +54,24 @@ namespace Ouvidoria_Projeto.Controllers
             ViewData["UsuarioId"] = new SelectList(_context.Usuario, "Id", "Id");
             return View();
         }
-        
 
-       // POST: Solicitantes/Create
-       // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-       // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-       [HttpPost]
+        // POST: Solicitantes/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SolicitanteId,Nome,Email,Senha,Status,Sexo,UsuarioId")] Solicitante solicitante)
+        public async Task<IActionResult> Create([Bind("SolicitanteId,Nome,Email,Senha,Status,Telefone, UsuarioId")] Solicitante solicitante)
         {
             ApplicationUser usuario = new ApplicationUser();
+            PerfilUsuario perfil = new PerfilUsuario();
+
             if (ModelState.IsValid)
             {
                 usuario.Nome = solicitante.Nome;
                 usuario.UserName = solicitante.Email;
                 usuario.Email = solicitante.Email;
                 usuario.PasswordHash = solicitante.Senha;
-                usuario.Numero = "839289392989";
+                usuario.Numero = solicitante.Telefone;
                 usuario.ESolicitante = 1;
 
                 var result = await _userManager.CreateAsync(usuario, usuario.PasswordHash);
@@ -79,6 +80,12 @@ namespace Ouvidoria_Projeto.Controllers
                     solicitante.Status = 1;
                     solicitante.UsuarioId = usuario.Id;
                     _context.Solicitantes.Add(solicitante);
+                    _context.SaveChanges();
+
+                    perfil.UsuarioId = usuario.Id;
+                    perfil.IdTipoUsuario = 1;
+
+                    _context.PerfilUsuario.Add(perfil);
                     _context.SaveChanges();
                 }
                 else
@@ -114,7 +121,7 @@ namespace Ouvidoria_Projeto.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SolicitanteId,Nome,Email,Senha,Status,Sexo,UsuarioId")] Solicitante solicitante)
+        public async Task<IActionResult> Edit(int id, [Bind("SolicitanteId,Nome,Email,Senha,Status,Telefone,UsuarioId")] Solicitante solicitante)
         {
             if (id != solicitante.SolicitanteId)
             {

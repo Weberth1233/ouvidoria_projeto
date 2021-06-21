@@ -22,7 +22,7 @@ namespace Ouvidoria_Projeto.Controllers
             var temAcesso = await (from TP in _context.TipoUsuario
                                    join AT in _context.AcessoTipoUsuario on TP.Id equals AT.IdTipoUsuario
                                    join PF in _context.PerfilUsuario on TP.Id equals PF.IdTipoUsuario
-                                   join US in _context.Usuario on PF.UserId equals US.Id
+                                   join US in _context.Usuario on PF.UsuarioId equals US.Id
                                    where AT.Id == codigoPagina && US.Email == usuario
                                    select new
                                    {
@@ -44,13 +44,32 @@ namespace Ouvidoria_Projeto.Controllers
             return userId;
 
         }
-       
+        public async Task<Boolean> AtualizarStatusUsu(String id, ApplicationDbContext _context, int novoStatus)
+        {
+            var usuario = await _context.Usuario
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (usuario == null)
+            {
+                return false;
+            }
+            //usuario.st = novoStatus;
+            try
+            {
+                _context.Update(usuario);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+            return true;
+        }
 
         public String Perfil(ApplicationDbContext _context, String email)
         {
             String resultado = "";
             var queryUser = from PE in _context.PerfilUsuario
-                                       join US in _context.Usuario on PE.UserId equals US.Id 
+                                       join US in _context.Usuario on PE.UsuarioId equals US.Id 
                                        where US.Email == email
                                        select new { IdTipo = PE.IdTipoUsuario};
 
@@ -63,17 +82,17 @@ namespace Ouvidoria_Projeto.Controllers
         }
         public async Task<Boolean> AtualizarStatus(int id, ApplicationDbContext _context, int novoStatus)
         {
-            var manifestoSolicitante = await _context.ManifestosSolicitantes
+            var manifesto = await _context.ManifestosSolicitantes
                 .Include(m => m.TipoManifesto)
                 .FirstOrDefaultAsync(m => m.ManifestoId == id);
-            if (manifestoSolicitante == null)
+            if (manifesto == null)
             {
                 return false;
             }
-            manifestoSolicitante.Status = novoStatus;
+            manifesto.Status = novoStatus;
             try
             {
-                _context.Update(manifestoSolicitante);
+                _context.Update(manifesto);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

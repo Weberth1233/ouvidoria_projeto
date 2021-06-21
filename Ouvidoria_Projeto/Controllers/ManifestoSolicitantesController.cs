@@ -26,6 +26,13 @@ namespace Ouvidoria_Projeto.Controllers
         // GET: ManifestoSolicitantes
         public async Task<IActionResult> Index()
         {
+            var temAcesso = await Usuario_Tem_Acesso(1, _context);
+
+            if (!temAcesso)
+            {
+                return RedirectToAction("Error", "Shared");
+            }
+
             var user = await UsuarioLog(_context);
             var applicationDbContext = _context.ManifestosSolicitantes.
                 Include(m => m.TipoManifesto)
@@ -86,8 +93,12 @@ namespace Ouvidoria_Projeto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,ManifestoId,Titulo,Descricao,Status,Data,TipoManifestoId")] ManifestoSolicitante manifestoSolicitante)
         {
+            var temAcesso = await Usuario_Tem_Acesso(5, _context);
+            if (!temAcesso)
+            {
+                return RedirectToAction("Error", "Shared");
+            }
             var user = await UsuarioLog(_context);
-            
             if (ModelState.IsValid)
             {
                 manifestoSolicitante.Data = DateTime.Now;
