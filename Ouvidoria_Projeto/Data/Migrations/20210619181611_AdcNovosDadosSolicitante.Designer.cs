@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ouvidoria_Projeto.Data;
 
 namespace Ouvidoria_Projeto.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210619181611_AdcNovosDadosSolicitante")]
+    partial class AdcNovosDadosSolicitante
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -303,14 +305,17 @@ namespace Ouvidoria_Projeto.Data.Migrations
                     b.Property<int>("IdTipoUsuario")
                         .HasColumnType("int");
 
-                    b.Property<string>("UsuarioId")
+                    b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IdTipoUsuario");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("IdentityUserId");
 
                     b.ToTable("PerfilUsuario");
                 });
@@ -515,9 +520,9 @@ namespace Ouvidoria_Projeto.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ouvidoria_Projeto.Models.ApplicationUser", "Usuario")
+                    b.HasOne("Ouvidoria_Projeto.Models.ApplicationUser", "IdentityUser")
                         .WithMany()
-                        .HasForeignKey("UsuarioId");
+                        .HasForeignKey("IdentityUserId");
                 });
 
             modelBuilder.Entity("Ouvidoria_Projeto.Models.Resposta", b =>
