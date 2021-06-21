@@ -8,7 +8,10 @@ namespace Ouvidoria_Projeto.Models
     {
         [Key]
         public int SolicitanteId { get; set; }
+        
+        [DataType(DataType.Text)]
         public String Nome { get; set; }
+        
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -21,24 +24,20 @@ namespace Ouvidoria_Projeto.Models
         public string Senha { get; set; }
 
         [Display(Name="Data de Nascimento")]
-        [DataType(DataType.DateTime)]
-        public DateTime Data;
+        [DataType(DataType.Date)]
+        public DateTime DataNascimento;
 
         public int Status { get; set; }
-        public Sexo Sexo { get; set; }
         
-        [Display(Name = "Usuario")]
+        [Display(Name ="Telefone")]
+        [Phone(ErrorMessage ="Numero inválido!")]
+        [Required]
+        public string Telefone { get; set; }
+
+
+        [Display(Name = "Nome")]
         public string UsuarioId { get; set; }
         public virtual ApplicationUser Usuario { get; set; }
-    }
-}
 
-namespace Ouvidoria_Projeto
-{
-    public enum Sexo
-    {
-        Masculino=1,
-        Feminino=2,
-        Outro=3,
     }
 }

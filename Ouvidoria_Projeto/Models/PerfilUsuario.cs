@@ -19,10 +19,11 @@ namespace Ouvidoria_Projeto.Models
         [Column(Order = 1)]
         public int IdTipoUsuario { get; set; }
         public virtual TipoUsuario TipoUsuario { get; set; }  
+        
         [Display(Name = "Usuário")]
         [ForeignKey("ApplicationUser")]
         [Column(Order = 1)]
-        public string UserId { get; set; }
-        public virtual ApplicationUser IdentityUser { get; set; }
+        public string UsuarioId { get; set; }
+        public virtual ApplicationUser Usuario { get; set; }
     }
 }
