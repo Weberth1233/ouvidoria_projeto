@@ -1,32 +1,53 @@
 ﻿@model Ouvidoria_Projeto.Models.Resposta
+@inject GestaoAcesso GestaoAcesso
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Criar</h1>
+<h1>Responder Manifesto do Solicitante</h1>
 
 <h4>Resposta</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="control-label">Email:</label>
+            <input value="@User.Identity.Name" class="form-control" disabled />
+        </div>
+        @{
+            string name = "";
+            string numero = "";
+
+            var usu = GestaoAcesso.UsuarioLogado(User.Identity.Name);
+            name = usu.Result.Nome;
+            numero = usu.Result.Numero;
+
+            <div class="form-group">
+                <label class="control-label">Nome:</label>
+                <input value=@name class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Telefone(Celular):</label>
+                <input value="@numero" class="form-control" disabled />
+            </div>
+        }
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="RespostaManifesto" class="control-label"></label>
-                <input asp-for="RespostaManifesto" class="form-control" />
+                <label class="control-label">Resposta:</label>
+                <textarea asp-for="RespostaManifesto" class="form-control"></textarea>
                 <span asp-validation-for="RespostaManifesto" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Responder" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Voltar para a lista</a>
 </div>
 
 @section Scripts {

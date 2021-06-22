@@ -7,47 +7,41 @@
 
 <h1>Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Realmente deseja desativar o manifesto?</h3>
 <div>
     <h4>ManifestoSolicitante</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserId)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdentityUser.Email)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => User.Identity.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Titulo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Titulo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Descricao)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Descricao)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Data)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Data)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TipoManifesto)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TipoManifesto.Descricao)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TipoManifesto.TipoManifestoId)
-        </dd class>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TipoManifesto.Descricao)
+        </dd>
     </dl>
     
     <form asp-action="Delete">

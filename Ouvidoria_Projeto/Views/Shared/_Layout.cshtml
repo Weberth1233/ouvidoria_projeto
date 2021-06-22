@@ -34,7 +34,10 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="ManifestoAnominoes" asp-action="Index">Manifesto Anominino</a>
+                        </li>
+
                         @if (SignInManager.IsSignedIn(User))
                         {
                             @if (GestaoAcesso.AcessoPerfil(User.Identity.Name).Equals("1"))
@@ -78,14 +81,15 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Solicitantes" asp-action="Index">Solicitantes</a>
                                 </li>
+                                <li>
+                                    <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Register">Solicitantes</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-light">Olá Administrador</a>
                                 </li>
                             }
                         }
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="ManifestoAnominoes" asp-action="Index">Manifesto Anominino</a>
-                        </li>
+                        
                     </ul>
                 </div>
             </div>

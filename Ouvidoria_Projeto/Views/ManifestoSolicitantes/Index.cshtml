@@ -10,6 +10,19 @@
 <p>
     <a asp-action="Create">Novo Manifesto</a>
 </p>
+
+@using (Html.BeginForm())
+{
+<div class="campoPesquisa">
+    <p>
+        Insira o Titulo: @Html.TextBox("SearchString")
+    </p>
+    <p>
+        <input type="submit" value="Pesquisar" class="btn btn-primary" />
+    </p>
+</div>
+}
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -36,56 +49,56 @@
     </thead>
 
     <tbody>
-@foreach (var item in Model)
-{
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => User.Identity.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @{
-                    var active = item.Status;
-                    if (active == 0)
-                    {
-                        @Html.DisplayName("Aguardando")
-                    }
-                    else if (active == 1)
-                    {
-                        @Html.DisplayName("Respondido")
-                    }
-                    else
-                    {
-                        @Html.DisplayName("Desativado")
-                    }
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoManifesto.Descricao)
-            </td>
-            <td>
-                @{
-                    if (active != 2)
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.ManifestoId">Editar</a>
-                        <a asp-action="Delete" asp-route-id="@item.ManifestoId">Deletar</a>
-                        <a asp-action="Details" asp-route-id="@item.ManifestoId">Detalhes</a> 
-                        if (active != 0)
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => User.Identity.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Titulo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @{
+                        var active = item.Status;
+                        if (active == 0)
                         {
-                            <a asp-action="Visualizar" asp-route-id="@item.ManifestoId">Visualizar Resposta</a>
+                            @Html.DisplayName("Aguardando")
+                        }
+                        else if (active == 1)
+                        {
+                            @Html.DisplayName("Respondido")
+                        }
+                        else
+                        {
+                            @Html.DisplayName("Desativado")
                         }
                     }
-                }
-            </td>
-        </tr>
-}
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoManifesto.Descricao)
+                </td>
+                <td>
+                    @{
+                        if (active != 2)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.ManifestoId">Editar</a>
+                            <a asp-action="Delete" asp-route-id="@item.ManifestoId">Deletar</a>
+                            <a asp-action="Details" asp-route-id="@item.ManifestoId">Detalhes</a>
+                            if (active != 0)
+                            {
+                                <a asp-action="Visualizar" asp-route-id="@item.ManifestoId">Visualizar Resposta</a>
+                            }
+                        }
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
