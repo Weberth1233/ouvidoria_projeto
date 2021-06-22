@@ -12,9 +12,18 @@ h1{
 table{
     max-width:100%;
 }
+div.campoPesquisa {
+    width: 100%;
+    background-color: #007bff;
+    color:#fff;
+    padding:5px;
+}
+div.campoPesquisa p {
+    font-size:13pt;
+}
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
