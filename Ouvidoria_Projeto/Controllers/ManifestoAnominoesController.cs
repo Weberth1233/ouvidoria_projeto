@@ -20,12 +20,21 @@ namespace Ouvidoria_Projeto.Controllers
         }
 
         // GET: ManifestoAnominoes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(String searchString)
         {
-            var applicationDbContext = _context.ManifestoAnomino.Include(m => m.TipoManifesto);
-            return View(await applicationDbContext.ToListAsync());
+            if (!String.IsNullOrEmpty(searchString))
+            {
+              var result = _context.ManifestoAnomino.
+                 Include(m => m.TipoManifesto).
+                 Where(m => m.Titulo.Contains(searchString));
+                 return View(result.ToList());
+            }
+            else
+            {
+                var applicationDbContext = _context.ManifestoAnomino.Include(m => m.TipoManifesto);
+                return View(await applicationDbContext.ToListAsync());
+            }
         }
-
         // GET: ManifestoAnominoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {

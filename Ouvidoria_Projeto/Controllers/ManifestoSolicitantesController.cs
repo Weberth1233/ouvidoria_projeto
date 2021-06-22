@@ -24,20 +24,32 @@ namespace Ouvidoria_Projeto.Controllers
         }
 
         // GET: ManifestoSolicitantes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(String searchString)
         {
             var temAcesso = await Usuario_Tem_Acesso(1, _context);
 
             if (!temAcesso)
             {
-                return RedirectToAction("Error", "Shared");
+                return RedirectToAction("Index", "Home");
             }
 
+
             var user = await UsuarioLog(_context);
-            var applicationDbContext = _context.ManifestosSolicitantes.
+            
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var result = _context.ManifestosSolicitantes.
                 Include(m => m.TipoManifesto)
                .Include(m => m.IdentityUser)
-               .Where(m => m.UserId == user.Id);
+               .Where(m => m.UserId == user.Id && m.Titulo.Contains(searchString));
+   
+                return View(result.ToList());
+            }
+
+            var applicationDbContext = _context.ManifestosSolicitantes.
+              Include(m => m.TipoManifesto)
+              .Include(m => m.IdentityUser)
+              .Where(m => m.UserId == user.Id);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -93,11 +105,11 @@ namespace Ouvidoria_Projeto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,ManifestoId,Titulo,Descricao,Status,Data,TipoManifestoId")] ManifestoSolicitante manifestoSolicitante)
         {
-            var temAcesso = await Usuario_Tem_Acesso(5, _context);
+            /*var temAcesso = await Usuario_Tem_Acesso(5, _context);
             if (!temAcesso)
             {
-                return RedirectToAction("Error", "Shared");
-            }
+                return RedirectToAction("Index", "Home");
+            }*/
             var user = await UsuarioLog(_context);
             if (ModelState.IsValid)
             {
