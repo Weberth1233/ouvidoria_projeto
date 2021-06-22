@@ -44,6 +44,15 @@ namespace Ouvidoria_Projeto.Controllers
             return userId;
 
         }
+        public async Task<ApplicationUser> UsuarioLogado(ApplicationDbContext _context,String email)
+        {
+
+            var userId = await _context.Usuario
+                .FirstOrDefaultAsync(m => m.Email == email);
+
+            return userId;
+
+        }
         public async Task<Boolean> AtualizarStatusUsu(String id, ApplicationDbContext _context, int novoStatus)
         {
             var usuario = await _context.Usuario
