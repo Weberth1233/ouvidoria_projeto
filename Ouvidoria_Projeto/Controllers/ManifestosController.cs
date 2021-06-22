@@ -23,6 +23,13 @@ namespace Ouvidoria_Projeto.Controllers
         // GET: Manifestos
         public async Task<IActionResult> Index()
         {
+            var temAcesso = await Usuario_Tem_Acesso(2, _context);
+
+            if (!temAcesso)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var applicationDbContext = _context.Manifesto.
                 Include(m => m.TipoManifesto).
                 Where(m => m.Status == 0);
@@ -68,6 +75,7 @@ namespace Ouvidoria_Projeto.Controllers
             return RedirectToAction("Create", "Respostas");
         }                
         // GET: Manifestos/Create
+        /*
         public IActionResult Create()
         {
             ViewData["TipoManifestoId"] = new SelectList(_context.TipoManifestos, "TipoManifestoId", "Descricao");
@@ -90,7 +98,7 @@ namespace Ouvidoria_Projeto.Controllers
             ViewData["TipoManifestoId"] = new SelectList(_context.TipoManifestos, "TipoManifestoId", "Descricao", manifesto.TipoManifestoId);
             return View(manifesto);
         }
-
+        */
         // GET: Manifestos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

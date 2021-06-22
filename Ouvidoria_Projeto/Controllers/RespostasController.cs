@@ -22,6 +22,12 @@ namespace Ouvidoria_Projeto.Controllers
         // GET: Respostas
         public async Task<IActionResult> Index()
         {
+            var temAcesso = await Usuario_Tem_Acesso(4, _context);
+
+            if (!temAcesso)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var user = await UsuarioLog(_context);
             var applicationDbContext = _context.Resposta.
                 Include(r => r.Manifesto).
