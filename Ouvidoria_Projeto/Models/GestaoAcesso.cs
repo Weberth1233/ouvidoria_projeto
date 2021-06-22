@@ -22,5 +22,11 @@ namespace Ouvidoria_Projeto.Models
             
             return usu;
         }
+        public async Task<ApplicationUser> UsuarioLogado(String email)
+        {
+            var usu = await UsuarioLogado(_context, email);
+
+            return usu;
+        }
     }
 }
